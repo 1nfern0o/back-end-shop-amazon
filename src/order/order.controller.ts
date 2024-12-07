@@ -10,9 +10,15 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Get()
+  @Auth('admin')
+  async getAll() {
+    return this.orderService.getAll()
+  }
+
+  @Get('by-user')
   @Auth()
-  async getAll(@CurrentUser('id') id: number) {
-    return this.orderService.getAll(id)
+  async getByUserId(@CurrentUser('id') id: number) {
+    return this.orderService.getByUserId(id)
   }
 
   @UsePipes(new ValidationPipe())

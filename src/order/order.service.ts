@@ -16,7 +16,24 @@ const yooKassa = new YooKassa({
 export class OrderService {
     constructor(private readonly prisma: PrismaService) {}
     
-    async getAll(userId: number) {
+    async getAll() {
+        return this.prisma.order.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                items: {
+                    include: {
+                        product: {
+                            select: returnProductObject
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    async getByUserId(userId: number) {
         return this.prisma.order.findMany({
             where: {
                 userId

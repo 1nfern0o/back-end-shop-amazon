@@ -11,9 +11,17 @@ import { CategoryModule } from './category/category.module';
 import { OrderModule } from './order/order.module';
 import { StatisticsModule } from './statistics/statistics.module';
 import { PaginationModule } from './pagination/pagination.module';
+import { ServeStaticModule } from '@nestjs/serve-static'
+import { path } from 'app-root-path'
 
 @Module({
-  imports: [ConfigModule.forRoot(), AuthModule, UserModule, ProductModule, ReviewModule, CategoryModule, OrderModule, StatisticsModule, PaginationModule],
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: `${path}/uploads`,
+      serveRoot: '/uploads'
+    }),
+    ConfigModule.forRoot(), AuthModule, UserModule, ProductModule, ReviewModule, CategoryModule, OrderModule, StatisticsModule, PaginationModule
+  ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
